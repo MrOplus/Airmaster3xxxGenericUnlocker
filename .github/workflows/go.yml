@@ -38,8 +38,8 @@ jobs:
         mkdir build
         GOOS=linux GOARCH=amd64 go build -o build/Unlocker-linux-x64
         GOOS=linux GOARCH=386 go build -o build/Unlocker-linux-x86
-        GOOS=windows GOARCH=amd64 go build -o build/Unlocker-windows-x64
-        GOOS=windows GOARCH=386 go build -o build/Unlocker-linux-x86
+        GOOS=windows GOARCH=amd64 go build -o build/Unlocker-windows-x64.exe
+        GOOS=windows GOARCH=386 go build -o build/Unlocker-windows-x86.exe
 
     - name: Test
       run: go test -v .
