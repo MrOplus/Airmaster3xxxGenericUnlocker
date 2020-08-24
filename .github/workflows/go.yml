@@ -32,6 +32,18 @@ jobs:
 
     - name: Build
       run: go build -v .
+    
+    - name: Publish      
+      run: |
+        mkdir build
+        GOOS=linux GOARCH=amd64 go build . -o build/Unlocker-linux-x64
+        GOOS=linux GOARCH=386 go build . -o build/Unlocker-linux-x86
+        GOOS=windows GOARCH=amd64 go build . -o build/Unlocker-windows-x64
+        GOOS=windows GOARCH=386 go build . -o build/Unlocker-linux-x86
 
     - name: Test
       run: go test -v .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Release
+        path: build
