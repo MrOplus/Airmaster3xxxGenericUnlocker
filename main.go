@@ -25,6 +25,13 @@ func main() {
 			unlockResponse , _ := makeRequest("LteSetSimRestriction","SimCardCheck=0",*loginCookie)
 			if *unlockResponse == "success" {
 				fmt.Println("SUCCESSFULLY UNLOCKED")
+				fmt.Println("Removing IMSI Prefix")
+				imsi_prefix , _ := makeRequest("LteSetSimRestriction","imsi_prefix=",*loginCookie)
+				if *imsi_prefix == "success" {
+					fmt.Println("IMSI Prefix removed")
+				}else{
+					fmt.Println("unable to remove imsi prefix  :/")
+				}
 			}else{
 				fmt.Println("Fail :/")
 			}
