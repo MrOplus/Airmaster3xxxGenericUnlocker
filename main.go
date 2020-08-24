@@ -1,18 +1,30 @@
 package main
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"os"
 	"strings"
 )
 
+var ip = "192.168.1.1"
 func main() {
+	if ipAddress := readUserLine("Enter IP Address : [192.168.1.1]"); ipAddress != nil && isIpv4Valid(*ipAddress) {
+		ip = *ipAddress
+	}
 	username := "admin"
+	if u := readUserLine("Enter Username : [admin]"); u != nil && *u != "" {
+		username = *u
+	}
 	password := "admin"
+	if p := readUserLine("Enter Password : [admin]"); p != nil && *p != "" {
+		password = *p
+	}
 	passwordMd5 := md5.Sum([]byte(password))
 	passwordMd5Str := hex.EncodeToString(passwordMd5[:])
 	loginResponse , loginCookie := makeRequest("checkLogin",fmt.Sprintf("login_username=%s&passwd=%s",username, passwordMd5Str),"")
@@ -41,9 +53,21 @@ func main() {
 		}
 	}
 }
-
+func readUserLine(prompt string) *string{
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println(prompt)
+	line, err := reader.ReadString('\n')
+	line = strings.ReplaceAll(line , "\n","")
+	if err != nil{
+		return nil
+	}
+	return &line
+}
+func isIpv4Valid(host string) bool {
+	return net.ParseIP(host) != nil
+}
 func makeRequest(path string,params string,cookies string)(response* string ,cookie* string){
-	url := "http://192.168.1.1/goform/" + path
+	url := fmt.Sprintf("http://%s/goform/%s",ip,path)
 	method := "POST"
 
 	payload := strings.NewReader(params)
