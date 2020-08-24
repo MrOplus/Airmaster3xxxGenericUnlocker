@@ -87,8 +87,8 @@ func makeRequest(path string,params string,cookies string)(response* string ,coo
 	req.Header.Add("X-Requested-With", "XMLHttpRequest")
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 Edg/84.0.522.63")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Add("Origin", "http://192.168.1.1")
-	req.Header.Add("Referer", "http://192.168.1.1/lte/cmdshell.asp")
+	req.Header.Add("Origin", fmt.Sprintf("http://%s",ip))
+	req.Header.Add("Referer", fmt.Sprintf("http://%s/lte/cmdshell.asp",ip))
 	req.Header.Add("Accept-Language", "en-US,en;q=0.9,fa;q=0.8")
 	if cookies != "" {
 		req.Header.Add("Cookie", cookies)
